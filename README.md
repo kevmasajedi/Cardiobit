@@ -1,2 +1,3 @@
-# Cardiobit
-Opensource ECG Platform
+# CardioBit
+## A Smart, Opensource and Affordable Electrocardiography Platform
+
