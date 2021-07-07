@@ -29,3 +29,23 @@ Where 𝜎 is the conductivity of the body electrolytic medium, |M(t)| is the ma
 ![Figure 2.2](https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig4.png?raw=true) 
 
 Where 𝐿𝐴𝐵(𝑡) refers to the lead vector containing different points A and B of observation (e.g., electrodes) on the torso. For more elaborate discussion regarding the derivation of the abovementioned equations, please refer to (Mark 2004)
+
+###  🎯 Design Decision I: Platform must be able to reconstruct 12 virtual leads from a reduced lead set
+
+Equation 2.2 is important, as it states that the potential vector between two given electrodes (which essentially comprises the ECG signal in the respective lead) can be reconstructed if M(t) and the angle between M(t) and the lead vector 𝐿𝐴𝐵(𝑡) are known. As demonstrated later in the proof of concepts, the reconstruction of a virtual 12-Lead ECG from a reduced lead set is attempted in software, with satisfactory results.
+
+However, it should be emphasized that equation 2.1 is derived with the implicit assumption of body as an idealized spherical torso, as shown in Figure 2. As a matter of fact, not only torso is far from an idealized sphere, but also it has non uniform conductance 𝜎 and its impedance can change during the cycle of respiration as well. (Gari, Francisco and Patrick 2006) So, for critical applications (e.g., in critically ill, unstable patients or in studying conditions that require exact monitoring) it is highly recommended to rely on standard 12-Lead ECG as opposed to the virtual case discussed above. 
+
+In overall, this ability is helpful in that it provides the clinicians in unprivileged areas with more data without additional costs. Thus, it helps in cases which wide availability of ECG monitoring is the primary goal. For example, when secondary prevention (i.e., screening) of ischemic or heart rhythm disease is to be performed on a disperse population in a large geographic area.
+
+## Signal Acquisition:
+### Electrode-Patient Interface:
+The electrical activity of the heart is propagated throughout the body by ions. To measure this activity at body surface, conversion of ions to electrons, is needed. This conversion happens at electrode-patient interface. When a metallic electrode (most commonly silver-silver chloride) is in contact with an electrolyte (skin or electrode gel), an electrochemical reaction occurs by ionexchange. Metal atoms (𝑀) tend to lose n electrons and pass into the electrolyte as metal ions (𝑀+𝑛 ) causing the electrode to become negatively charged with respect to the electrolyte: (Webster 2006)
+
+Similarly, under equilibrium, ions in the electrolyte take the reverse direction of the equation (3.1). The electrode becomes positively charged with respect to the electrolyte as a result. (Webster 2006)
+
+Under equilibrium condition, rate at which metal atoms lose electrons and pass into the electrolyte is exactly balanced by the rate of equation (3.2). Thus, the current flowing in one direction, cancels out the current flowing in the opposing direction, resulting in zero net current flow. However, a potential difference is found to exist between the electrode and electrolyte and depends on the position of the equilibrium between two processes (3.1) and (3.2). This potential is termed as half-cell potential, and can be calculated by the Nernst Equation (3.3) (Webster 2006)
+
+Since an ECG signal is obtained by two equal electrodes for each lead, it can be assumed that half-cell potentials are equal and offset voltage at the input of differential amplifier is zero. In practice, small differences in the properties of electrodes result in a dc offset voltage, which can sometimes change over time. (Madeiro, et al. 2019)
+
+Further, as positive ions are attracted by the electrode and negative ions by the electrolyte, a double layer capacitance is created at the electrode-patient interface. Also, due to the electrochemical reactions in the interface, some dc current can leak across the double layer. The amount of leak is proportional to charge transfer resistance which is calculated by the equation (3.4) where 𝑖0 is the current flowing across the interface in both directions (no flow under equilibrium, as discussed before). The equivalent circuit is shown in Figure 3. (Madeiro, et al. 2019) Note that equations (3.3) and (3.4) are only of theoretical interest here.
