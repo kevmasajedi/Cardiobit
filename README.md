@@ -76,4 +76,22 @@ Thus, for designing cost-optimized solution, a supply voltage of at least 12V (-
 ***
 
 ### Surface Lead Systems:
-The standard 12-Lead ECG is a noninvasive representation of the electrical activity of the heart. This lead system rests on the theoretical foundation of classical lead theory introduced by Einthoven et al. (Madeiro, et al. 2019) This theory assumes a single time-varying dipole in 2- dimensional space to represent electrical activity of the heart, and assumes human body as a homogenous conductor. Later, Burger and van Millan improved and generalized the theory (Burger and van Milaan 1948) with regard to 3-dimentionality and non-homogenous conductance of the body. Yet, their theory still rests on the fixed-dipole hypothesis, thus allows for the derivation of the potentials at a given instance, anywhere on the body surface (Macfarlane, et al. 2011). As noted in [Design Decision I](##Design-Decision-I), these assumptions are not completely solid.
+The standard 12-Lead ECG is a noninvasive representation of the electrical activity of the heart. This lead system rests on the theoretical foundation of classical lead theory introduced by Einthoven et al. (Madeiro, et al. 2019) This theory assumes a single time-varying dipole in 2- dimensional space to represent electrical activity of the heart, and assumes human body as a homogenous conductor. Later, Burger and van Millan improved and generalized the theory (Burger and van Milaan 1948) with regard to 3-dimentionality and non-homogenous conductance of the body. Yet, their theory still rests on the fixed-dipole hypothesis, thus allows for the derivation of the potentials at a given instance, anywhere on the body surface (Macfarlane, et al. 2011). As noted in [Design Decision I](https://github.com/kevmasajedi/Cardiobit/blob/main/README.md#-design-decision-i-platform-must-be-able-to-reconstruct-12-virtual-leads-from-a-reduced-lead-set), these assumptions are not completely solid.
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig10.png?raw=true" width="300px" title="Figure 4. Bipolar Limb Leads.">
+
+12 Leads on this system are composed of 3 bipolar limb leads(I, II, III), 3 augmented unipolar limb leads (aVR, aVL and aVF) and 6 unipolar chest leads (𝑉1 𝑡𝑜 𝑉6). Bipolar limb leads are defined by equations 3.5, 3.6, 3.7. (Figure 4). Right leg electrode is used for reducing electromagnetic interference, and can be placed anywhere at body surface. It is placed at right leg for convenience. (Madeiro, et al. 2019).
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig11.png?raw=true" width="200px" >
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig12.png?raw=true" width="300px" title="Figure 5. Position of unipolar chest leads">
+
+Potentials of unipolar chest electrodes (𝑉1 𝑡𝑜 𝑉6) is measured relative to Wilson Central Terminal (WCT), which is the normalized sum of the potentials of 𝐸𝐿𝐴, 𝐸𝑅𝐴 and 𝐸𝐿𝐿. (Equations 3.8 and 3.9) (Madeiro, et al. 2019)
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig13.png?raw=true" width="250px" >
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig14.png?raw=true" width="300px" title="Figure 6. Standard 12-Lead System">
+
+Augmented unipolar limb leads, comprise the remaining three leads. The same set of electrodes from bipolar leads are used (𝐸𝐿𝐴, 𝐸𝑅𝐴 and 𝐸𝐿𝐿) as positive electrodes and negative electrode is a modified version of the Wilson Central Terminal called of GT. (equations 3.10 through 3.12) (Madeiro, et al. 2019)
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig15.png?raw=true" width="350px" >
