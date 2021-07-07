@@ -95,3 +95,17 @@ Potentials of unipolar chest electrodes (𝑉1 𝑡𝑜 𝑉6) is measured relat
 Augmented unipolar limb leads, comprise the remaining three leads. The same set of electrodes from bipolar leads are used (𝐸𝐿𝐴, 𝐸𝑅𝐴 and 𝐸𝐿𝐿) as positive electrodes and negative electrode is a modified version of the Wilson Central Terminal called of GT. (equations 3.10 through 3.12) (Madeiro, et al. 2019)
 
 <img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig15.png?raw=true" width="350px" >
+
+###  🎯 Design Decision III: Technical issues should be openly discussed, anyone’s contribution is to be welcomed
+A variety of other lead systems are proposed, including Frank, reduced Frank, EASI or various three or two lead configurations. (Gari, Francisco and Patrick 2006). But the standard 12-Lead system has by far the widest adoption in clinical practice. Thus, other configurations are not discussed further. 
+
+However, CardioBit is opensource in hardware and software and it can be adopted for any given lead set, by any interested researcher. In fact, as the author, I’ll be delighted If I see such actions taken by the potential research and development community. I believe community, can shed more light on the issue of practicality of virtual 12-Lead ECG reconstruction from a reduced lead set, provide a quantitative measure of accuracy for such reconstructions, or even come up with a more theoretically solid method of reconstruction (e.g., based on the modern concept of leadfield instead of lead-vector)
+
+In that spirit, I like to echo a section of *ST Segment Monitoring Practice Guideline Working Group*’s recommendation regarding the use of reduced lead sets, which is further discussed by (Gari, Francisco and Patrick 2006):
+
+- If only two leads are available for ST segment monitoring (for patients with acute coronary syndrome), lead III and V3 should be used.
+- The best three-lead combination is III-V3-V5
+- V1, is considered the best lead to monitor for cardiac arrhythmias
+- The use of at least three chest leads (V3, V4, V5) is recommended for ST analysis
+
+The provided proof-of-concept of the CardioBit platform’s core architecture, is designed for acquisition of 2 bipolar limb leads and 2 unipolar chest leads. User (whether clinician, researcher or developer) can decide which respective two leads he or she wants to use. As noted, reconstruction of virtual 12-lead ECG from the chosen leads is attempted in software. It is left up to user to decide whether to use this feature or not. For more information, please regard the factors noted in  [Design Decision I](https://github.com/kevmasajedi/Cardiobit/blob/main/README.md#-design-decision-i-platform-must-be-able-to-reconstruct-12-virtual-leads-from-a-reduced-lead-set)
