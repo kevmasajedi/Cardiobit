@@ -76,3 +76,4 @@ Thus, for designing cost-optimized solution, a supply voltage of at least 12V (-
 ***
 
 ### Surface Lead Systems:
+The standard 12-Lead ECG is a noninvasive representation of the electrical activity of the heart. This lead system rests on the theoretical foundation of classical lead theory introduced by Einthoven et al. (Madeiro, et al. 2019) This theory assumes a single time-varying dipole in 2- dimensional space to represent electrical activity of the heart, and assumes human body as a homogenous conductor. Later, Burger and van Millan improved and generalized the theory (Burger and van Milaan 1948) with regard to 3-dimentionality and non-homogenous conductance of the body. Yet, their theory still rests on the fixed-dipole hypothesis, thus allows for the derivation of the potentials at a given instance, anywhere on the body surface (Macfarlane, et al. 2011). As noted in [Design Decision I](##Design-Decision-I), these assumptions are not completely solid.
