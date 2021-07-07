@@ -37,6 +37,8 @@ However, it should be emphasized that equation 2.1 is derived with the implicit 
 
 In overall, this ability is helpful in that it provides the clinicians in unprivileged areas with more data without additional costs. Thus, it helps in cases which wide availability of ECG monitoring is the primary goal. For example, when secondary prevention (i.e., screening) of ischemic or heart rhythm disease is to be performed on a disperse population in a large geographic area.
 
+***
+
 ## Signal Acquisition:
 ### Electrode-Patient Interface:
 The electrical activity of the heart is propagated throughout the body by ions. To measure this activity at body surface, conversion of ions to electrons, is needed. This conversion happens at electrode-patient interface. When a metallic electrode (most commonly silver-silver chloride) is in contact with an electrolyte (skin or electrode gel), an electrochemical reaction occurs by ionexchange. Metal atoms (𝑀) tend to lose n electrons and pass into the electrolyte as metal ions (𝑀+𝑛 ) causing the electrode to become negatively charged with respect to the electrolyte: (Webster 2006)
@@ -70,3 +72,7 @@ To put this design decision in better context, we need to slightly deviate from 
 >A high dc offset voltage can quickly saturate a low-voltage circuit and limit the amount of achievable amplification. For example, a 3V supply voltage (equivalent to -1.5v to +1.5v dual supply), can be easily saturated by only a 5 times front-end amplification. Thus, only 2x to 3x first-stage gain can be reasonably applied. A high-resolution signal can still be obtained after a second-stage amplification and by the use of a high-precision analog-todigital converter (ADC). But as discussed later, due to low front-end amplification the noise profile will not be satisfactory. In addition, high-precision ADCs can be costly and usually have far slower sampling rates.
 
 Thus, for designing cost-optimized solution, a supply voltage of at least 12V (-6.0v to +6.0v) is recommended. As CardioBit is designed for battery-powered operation, and high-capacity 3.7v 18650 Lithium-Ion cells are widely available with ever decreasing cost (Warner 2015), such supply voltage can be provided with 3 to 4 cells in series, allowing for a compact form-factor for the final, assembled device.
+
+***
+
+### Surface Lead Systems:
