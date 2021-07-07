@@ -42,10 +42,23 @@ In overall, this ability is helpful in that it provides the clinicians in unpriv
 ### Electrode-Patient Interface:
 The electrical activity of the heart is propagated throughout the body by ions. To measure this activity at body surface, conversion of ions to electrons, is needed. This conversion happens at electrode-patient interface. When a metallic electrode (most commonly silver-silver chloride) is in contact with an electrolyte (skin or electrode gel), an electrochemical reaction occurs by ionexchange. Metal atoms (𝑀) tend to lose n electrons and pass into the electrolyte as metal ions (𝑀+𝑛 ) causing the electrode to become negatively charged with respect to the electrolyte: (Webster 2006)
 
+![Figure 3.1](https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig5.png?raw=true) 
+
 Similarly, under equilibrium, ions in the electrolyte take the reverse direction of the equation (3.1). The electrode becomes positively charged with respect to the electrolyte as a result. (Webster 2006)
+
+
+![Figure 3.2](https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig6.png?raw=true) 
 
 Under equilibrium condition, rate at which metal atoms lose electrons and pass into the electrolyte is exactly balanced by the rate of equation (3.2). Thus, the current flowing in one direction, cancels out the current flowing in the opposing direction, resulting in zero net current flow. However, a potential difference is found to exist between the electrode and electrolyte and depends on the position of the equilibrium between two processes (3.1) and (3.2). This potential is termed as half-cell potential, and can be calculated by the Nernst Equation (3.3) (Webster 2006)
 
+![Figure 3.3](https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig7.png?raw=true "𝐸0 is the standard half-cell potential measured relative to the standard hydrogen electrode, R is the universal gas constant, n is the number of electrons involved in the reaction, T is the absolute temperature in Kelvin. F is the faraday’s constant.")
+
 Since an ECG signal is obtained by two equal electrodes for each lead, it can be assumed that half-cell potentials are equal and offset voltage at the input of differential amplifier is zero. In practice, small differences in the properties of electrodes result in a dc offset voltage, which can sometimes change over time. (Madeiro, et al. 2019)
 
+![Figure 3](https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig9.png?raw=true "Figure 3. Electrode-Patient Interface Equivalent Circuit. 𝐶𝑑𝑙 the double-layer capacitance; 𝑅𝐶𝑇 the charge transfer resistance; 𝑅𝑇𝑂𝑇𝐴𝐿 lead and electrode resistances and 𝐸𝑅𝐸𝑉 the equilibrium (Nernst) potential.")
+
 Further, as positive ions are attracted by the electrode and negative ions by the electrolyte, a double layer capacitance is created at the electrode-patient interface. Also, due to the electrochemical reactions in the interface, some dc current can leak across the double layer. The amount of leak is proportional to charge transfer resistance which is calculated by the equation (3.4) where 𝑖0 is the current flowing across the interface in both directions (no flow under equilibrium, as discussed before). The equivalent circuit is shown in Figure 3. (Madeiro, et al. 2019) Note that equations (3.3) and (3.4) are only of theoretical interest here.
+
+![Figure 3.4](https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig8.png?raw=true) 
+
+
