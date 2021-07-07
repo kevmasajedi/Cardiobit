@@ -60,5 +60,13 @@ Further, as positive ions are attracted by the electrode and negative ions by th
 
 <img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig8.png?raw=true" width="170px"> 
 
-###  🎯 Cost-optimized solutions should be supplied with higher voltage
+###  🎯 Design Decision II: Cost-optimized solutions should be supplied with higher voltage
 DC offset voltage discussed above, can be as high as 300mV which is enormous when compared to typical 1.8mV amplitude of the ECG signal (Lee and Kruse 2008). The dc offset can be reduced by the use of high-quality electrodes or significantly suppressed with specialty circuits (Huang, Huang and Li 2018). However, in accordance with the design principles discussed in the abstract of this article, a simple rule of thumb is proposed instead: Use higher supply voltage, when designing cost-optimized solutions.
+
+To put this design decision in better context, we need to slightly deviate from the flow of the discussion:
+
+>As ECG signal is very weak with only 0.5µV – 4mV of amplitude and is susceptible to interference [e.g., 50 or 60Hz AC noise which is present in virtually all indoor environments], it needs to be amplified before processing and analysis. (Huang, Huang and Li 2018)
+
+>A high dc offset voltage can quickly saturate a low-voltage circuit and limit the amount of achievable amplification. For example, a 3V supply voltage (equivalent to -1.5v to +1.5v dual supply), can be easily saturated by only a 5 times front-end amplification. Thus, only 2x to 3x first-stage gain can be reasonably applied. A high-resolution signal can still be obtained after a second-stage amplification and by the use of a high-precision analog-todigital converter (ADC). But as discussed later, due to low front-end amplification the noise profile will not be satisfactory. In addition, high-precision ADCs can be costly and usually have far slower sampling rates.
+
+Thus, for designing cost-optimized solution, a supply voltage of at least 12V (-6.0v to +6.0v) is recommended. As CardioBit is designed for battery-powered operation, and high-capacity 3.7v 18650 Lithium-Ion cells are widely available with ever decreasing cost (Warner 2015), such supply voltage can be provided with 3 to 4 cells in series, allowing for a compact form-factor for the final, assembled device.
