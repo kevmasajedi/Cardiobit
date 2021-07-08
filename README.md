@@ -129,7 +129,7 @@ The electrical interference is modeled as the capacitive coupling of AC powerlin
 
 Assuming that electrodes have perfectly the same electrical impedance, such displacement current should be rejected. Because, the front-end differential amplifier, only amplifies the difference between the voltages of the two inputs. In other words, as impedance of both electrodes is the same, the displacement current, results in induction of exactly the same voltage in them. This can be easily stated using generalized ohm’s law (Equation 3.13).
 
-<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig18.png?raw=true" width="400px" >
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig18.png?raw=true" width="300px" >
 
 Where 𝑉_𝐴𝐶 is the AC interference potential, 𝐼_𝐷 is the displacement current and Z is the impedance in respective inputs A and B. It is observed that 𝑉_𝐴𝐶 is induced by unbalance of the two impedances (the term 𝑍_𝐴 − 𝑍_𝐵 being non-zero). (Huhta and Webster 1973)
 
