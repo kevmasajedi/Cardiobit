@@ -137,4 +137,107 @@ That being said, it should not come as a surprise, that no two electrodes are pe
 
 Author should note here that in the experimentation with lower quality, cheaper disposable electrodes, far higher impedance imbalance has been observed and induced potential frequency observed to be as much as 10% of the QRS potential. Such observations influenced the **Design Decision IV** which will be discussed in due course.
 
+### Analog Front End Circuit
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig19.png?raw=true" width="500px" title="Figure 9. A classical topology of ECG analog front end topology. (Credit: Madeiro, et al. 2019)">
+Figure 9, shows a classical topology of ECG analog front end signal conditioner. Here, the intention of each stage in this block diagram is briefly discussed:
 
+#### Shielded or Twisted Cables:
+- Twisted cables minimize the area occupied by the loop forming between electrode leads and the body, thereby reduce the magnetic interference of AC powerlines. As discussed in the section 3.3.1 and shown in Figure 8. Shielding provides a measure against electrical interference of AC powerlines, by providing a grounded surface near the lead wires, thereby significantly reduces capacitive coupling of powerlines with lead wires. Consult (Huhta and Webster 1973) for more detailed discussion.
+
+#### Pre-Amplification by Instrumentation Amplifier:
+
+- Instrumentation Amplifiers are modified types of operational amplifiers. They are differential amplifiers with a very high (theoretically infinite) input impedance and improved CMRR. This large input impedance, is essential to ensure no current is being drawn from the body, and thus the small voltage of ECG signal is properly measured. In short, the chain of reasoning for this, is very similar to that of well-known ideal voltmeter, which should have infinite resistance and no current should flow through it. See (Horowitz and Hill 2015) or (Scherz and Monk 2016).
+- Common-Mode Rejection Ratio (CMRR) indicates the ratio between the differential gain of an amplifier (𝐺𝐷) and its common-mode gain (𝐺𝐶). (Equation 3.14) Common mode signals are those that appear simultaneously on both inputs (e.g., that of 60/50-Hz powerline interference). Ideally, CMRR of a differential amplifier should be infinite. However, that’s not achievable in practice. Instrumentation amplifiers enjoy a higher CMRR than those of ordinary operational amplifiers, due to their special configuration. The value of CMRR changes with gain and frequency, and typically ranges between 80dB to 120dB. See (Horowitz and Hill 2015).
+- Last to be noted under this topic, is the necessity of pre-amplification per se. As discussed before, the desired ECG signal is very weak and is floating on a large-by-comparison voltage offset, created by unequal Nernst potential in respective electrodes. This limits the amount of gain applicable to the first stage amplification. In addition, low frequency noise resulting from poor skin preparation or poor electrode adhesion can further complicate the problem. Thus, a large first-stage gain would result in quick saturation and/or large wandering of output signal of the circuit. Dividing amplification in two stages, can significantly alleviate these problems and yet adequately amplify the signal to meet the dynamic range of analog-to-digital converter. (Madeiro, et al. 2019)
+- Author proposes a coarse rule of thumb for determining first-stage gain: divide supply voltage by 0.3 and do not exceed one-fourth of the result. For example, a supply voltage of 12v (+6v to -6v) should have maximum first stage gain of ( 12/0.3 × 1/4 = 10). The divisor 0.3 comes from taking into account a typically high electrode offset voltage of ∓ 300mV. It is divided by four to ensure amplified offset does not saturate more than half of negative or positive voltage rails.
+
+#### Right Leg Drive Circuit:
+- This circuit inverts and amplifies the common-mode voltage and feeds it back to the body. As a result, it can help to reduce noises that are induced on both of the electrode leads (e.g., AC powerline noise). (Madeiro, et al. 2019) Unfortunately, this circuit can easily become unstable, and thus not implemented in CardioBit proof-of- concept hardware (more on the reason in Design Decision IV). This circuit is extensively discussed in literature and interested readers are referred to (Webster 2006)
+
+#### Galvanic Isolation:
+- Safety precautions should be taken seriously when a circuit that is connected to the mains electricity, comes into contact with human subject. Even very small current leakages (less than 100µA) can induce lethal ventricular fibrillation in catheterized human subjects. 
+- In such circumstances, circuit board must be segmented into isolated and non-isolated sections. These sections must be separated by at least 10mm of free space from each other (depending on the dielectric constant of the PCB) Isolated sections should receive power from non-isolated section via DC-to-DC converters. Similarly, information (ECG signal) is transmitted back to the non-isolated parts through opto-isolators or isolation amplifiers. (Gari, Francisco and Patrick 2006)
+- ⚠ As discussed in the **Design Decision V**, and in accordance with the design principles discussed in the abstract, **CardioBit, is designed ONLY for low-voltage DC battery-powered usage.** The proof-of-concept circuit is not isolated and should not be directly (via AC-to-DC adapter) or indirectly (via USB port to a mains-powered PC or even a laptop that is connected via an adapter to AC power) connected to the wall outlets, unless it is completely disconnected from human subject. The operator, is responsible for any shortcomings in protecting patient safety, when he or she ignores these precautions.
+- As CardioBit is opensource, any community developed hardware is advised to come with precise documentation clearly describing the specific solution’s do’s and don’ts regarding patient safety.
+
+#### High-Pass Filter:
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig20.png?raw=true" width="400px" title="Figure 10. Depicting HPF, Second-Stage Amplification and LPF stages">
+
+- As previously discussed, half-cell potential differences at electrodes result in a DC offset which gets amplified in the first stage and can possibly saturate the voltage rails if high amplification is applied. In addition, changes in skin moisture, temperature, muscle tremor, movement, electrode gel leakage and patient’s breathing, result in slowly varying electrode impedance which manifests itself as a slow wandering of the ECG baseline. (Madeiro, et al. 2019) A simple RC filter can ground the signals below a cutoff frequency 𝑓𝑐 , which is determined by choosing the values of the resistor R and the capacitor C. (Equation 3.14) However as discussed in (G), using an active filter might be a better option.
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig21.png?raw=true" width="150px" >
+
+#### Second Stage Amplification:
+- As high-pass filter, removes the effect of offset voltage, higher amplification can be achieved in the second stage. The amount of the amplification should be determined by both considering supply voltage of the circuit and dynamic range of the analog-to-digital converter. One must ensure a high-voltage QRS complex would not saturate the voltage rails. Minimum amplification for a desirable dynamic range can be determined by looking for the u-waves in the acquired signal. If these waves are readily recorded, it can be reasonably assumed that amplification is sufficient for analog-digital converter to faithfully record the signal.
+
+#### Second Stage Amplification:
+- As high-pass filter, removes the effect of offset voltage, higher amplification can be achieved in the second stage. The amount of the amplification should be determined by both considering supply voltage of the circuit and dynamic range of the analog-to-digital converter. One must ensure a high-voltage QRS complex would not saturate the voltage rails. Minimum amplification for a desirable dynamic range can be determined by looking for the u-waves in the acquired signal. If these waves are readily recorded, it can be reasonably assumed that amplification is sufficient for analog-digital converter to faithfully record the signal.
+
+#### Low Pass Filter:
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig22.png?raw=true" width="500px" title="Figure 11. Frequency response of RC filters. Roll-off of simple RC low pass filters, is only about -20 dB/decade (credit: wikipedia)">
+
+- high frequency electromagnetic interference, and skeletal muscle activity, can also contaminate the recorded biopotential, especially during exercise or under 24/7 continuous (Holter) monitoring. These high frequency components should be filtered, in a way that does not cause distortion on ECG signal (e.g., blunting of the QRS peak). Attempting to rely solely on the slow sampling frequency of analog-to-digital converter (ADC), to filter such components, will result in a signal corrupted by aliasing effect. Refer to (Parker 2017) for an introduction.
+- In order to avoid aliasing, Nyquist theorem dictates the cutoff frequency of the low pass filter (equation 3.14) should be less than half the sampling frequency of ADC. Kligfield, et al. suggested 0.05 Hz to 250 Hz to be the frequency band of desired ECG signal. If adult patients are under monitoring, the cutoff of the lowpass filter can be reduced to 150 Hz. So, the ADC must feature a sampling frequency of at least 301 Hz.
+- A simple low-pass filter is used in the proof-of-concept of the core architecture. But theoretically, this may not be a good choice. First, simple RC filters suffer from a poor rolloff of about -20 dB/decade. Meaning signals with 10 times the frequency of filter’s cutoff will still be present with one-tenth of original voltage. So, noises which have frequencies close to the cut-off, will remain significant and may still cause prominent aliasing to occur.
+- High-order active filters can instead be used with more ideal performance, but designer needs to beware occasional ringing behavior near cut-off frequency. High-order Bessel filters are recommended for their linear response and minimal distortion (Madeiro, et al. 2019). I avoid discussing details here, as they are far from the scope of this article. However, in **Design Decision IV**, I discuss why simple RC filters are used in core architecture’s proof-of-concept.
+
+#### Analog to Digital Conversion:
+- Lastly, the acquired biopotential will be converted to digital representation by a delta-sigma analog-to-digital converter, with a sampling frequency of at least twice the cut-off frequency of the low-pass filter. The digital signal will be further processed with embedded microcontroller (Based on Arduino or ESP8266 platforms) as discussed later.
+
+### 🎯 Design Decision IV: Use Heavy DSP Instead of Fancy Analog Circuits
+This design decision, has been referred to, as early as Section 3.3.1, in relation to the issue of impedance imbalance of low-quality electrodes, and later, in 3.3.2 (C), in relation to right-leg circuit, and then, in 3.3.2 (G) in relation to RC filters. However, actual presentation of this designdecision has been delayed until now, because sufficient background should have been discussed for it in order to make sense. 
+
+The design decision IV is about the approach to noise-suppression. As we learned, ECG signal is inevitably contaminated by noise. The issue is how to filter out and suppress the noise, without distorting the signal. Additionally, the core-architecture should be open-source, inclusive and cost-optimized. So, the solution, should not be overly elaborate, as it discourages contribution. Less-privileged users should also be kept in mind, so worst-case scenarios of poor-quality electrodes with large offset voltage and high impedance imbalance should be assumed throughout the design.
+
+As a result, author decided against the use of right-leg drive circuit, as it is unstable by design and requires fine-tuning or fancy design techniques to work properly, which reduces scalability and inclusivity of platform. 
+
+In the same spirit, simple first-order RC filters have been preferred over more complicated eighth-order active Bessel filters. However, in this case, the compromise sometimes manifests itself. Unfortunately, designer is sometimes forced to reduce cut-off frequency of the low pass filter below 150 Hz, to prevent aliasing in cases where sampling frequency of ADC is close to 300- Hz (which is not a rare issue in low-cost ADCs). Also, the R wave in the QRS complex may become mildly blunt, which may be tolerable in some applications, but not in some others. 
+
+Such analog minimalism, will be later met with aggressive digital signal processing, on the server side, which can be flexibly tuned by the user through a web-based user interface. For example, User may enable, disable or set filtering frequency, etc. Please refer to (Parker 2017) for theoretical introduction on the subject. For enquiry about the detailed implementation of these features, please refer to the proof-of-concept hardware documentations. 
+
+In overall, this decision may render the bare-bone, core-architecture unsuitable for some critical research or clinical applications. But then again, that’s not the intended use-case. The core architecture is designed as a starting platform for other solutions to be built upon it. I believe, overtime, a vibrant community can more than compensate such technical shortcomings. So, one must design the core platform as generic as possible, rather than prohibitively opinionated and elaborate. Later, more complete products can be made based on the core platform.
+
+### 🎯 Design Decision V: Design for Battery-Powered Operation Only
+CardioBit is also designed with a look toward distributed manufacturing. The casing, provided for the proof-of-concept hardware, can be readily made with a 3D printer, the PCB can be prototyped for just a few dollars and can be assembled in any electronicslaboratory with minimal equipment. Anyone, anywhere in the world can tweak the proof-of-concept hardware, or improve the design to make it more suitable for specific applications. 
+
+With this great customizability, comes great concernsfor patient safety. As previously stated, less than 100µA of 60-Hz AC leakage current, can result in lethal consequences in catheterized patients. Although measures can be taken to ensure such leaks will not happen (e.g., by electrical isolation of the analog front-end and the use of isolation amplifiers), and healthy, nonhospitalized individuals, may have higher thresholds and less vulnerability, one cannot simply hope that all the design guidelines will be properly implemented in community-designed solutions. In this regard, the risk is simply too great even for minor mistakes. 
+
+Thus, it was decided against the use of AC power, altogether. The core architecture along with its proof-of-concepts are designed ONLY for battery-powered operation. They should not be connected to mains powerlines, either via the charging adapter, or via USB port to an AC powered PC or even a charging laptop. Developers who want to use the USB port to test their prototypes, are advised to use an isolated USB hub to minimize dangers. 
+
+I believe this design decision, not only results in far better patient safety, it also honors the design principles, as the total cost of both components and development will be driven significantly lower. This way, the platform will be far more forgiving in case of design/assembly errors and so it will remain inviting to young, less experienced minds. 
+
+Additionally, in the long run, lithium batteries will become even more affordable, developed products will become more energy-efficient, and more portable, and can be used in remote locations and unprivileged off-grid areas.
+
+## Digital Circuitry:
+CardioBit platform, does not use custom digital circuits, and it is designed to be compatible with open-source electronics platforms like Arduino. Arduino is an open-source, easy to use hardware and software platform. The Arduino-based boards are readily available virtually everywhere in the world in multiple form-factors with affordable prices. 
+
+Originally, Arduino is based on 8-bit AVR microcontrollers. But as hardware is opensource, versions based on ESP8266 32-bit processor are also developed based on Arduino platform. This chip is more powerful, and features more memory, along with full TCP/IP stack for Wi-Fi connectivity. Many open-source libraries are developed for this chip to be programmed with Arduino software, using Arduino integrated development environment (IDE) and Arduino programming language.
+
+CardioBit is not opinionated about which platform, or microcontroller is used for further processing. One can use Arduino, Raspberry Pi, Orange Pi, CircuitPython or essentially any open or closed-source platform to pair with the analog front-end. Only requirements are to power the ADCs used in the circuit with native voltage of the platform (3.3v or 5v), choose the value of endstage resistors to divide the voltage to the suitable value, and connect to ADCs with a communication interface (e.g., SPI or I2C). Connectivity to internet should also be provided, either natively or by using Wi-Fi or Ethernet shields, as digital signal processing is offloaded to server-side.
+
+However, to be on par with our design principles, we based the proof-of-concept models for the core-architecture on ESP8266 powered hardware and Arduino platform software. Low-cost, lowpower, readily available ADS1015 ADC chips are used and accessed via I2C. These can be directly swapped with ADS1115 chips for low lead-count solutions, as this has higher accuracy but lower sampling rate which renders it too slow for 12-Lead devices.
+
+## ⚠ Safety and Precautions
+As already stated, multiple times, CardioBit core architecture and its proof-of-concept implementations are designed **ONLY** for battery-powered operation. Operator is solely responsible for patient safety if he or she uses the device while it’s plugged into AC power adapter or non-isolated computer USB port. (Please refer to **Design Decision V**)
+
+Also, the core architecture and its proof-of-concept implementations, are not equipped with voltage-limiting input circuitry, and should not be relied upon in mission-critical applications, especially when defibrillators or other electrosurgical equipment are to be used. In such cases, high-voltage induced between two leads by such equipment, can damage the internal circuits and render the device non-working.
+
+## References
+- Burger, H.C., and J.B. van Milaan. 1948. "Heart-vector and leads, Part I." British Heart Journal
+- Einthoven, W, G Fahr, and A DE Waart. 1950. "On the direction and manifest size of the variations of potential in the human heart and on the influence of the position of the heart on the form of the electrocardiogram." American Heart Journal
+- Gari, D.C., A. Francisco, and E Patrick. 2006. Advanced Methods and Tools for ECG Data Analysis. Artech House, Inc.
+- Guyton, Arthur C., and John E. Hall. 2015. Guyton and Hall Textbook of Medical Physiology. Saunders.
+- Horowitz, Paul, and Winfield Hill. 2015. The Art of Electronics 3rd Edition. Cambridge University Press.
+- Huang, Ji-Wei, Tai-Ming Huang, and Fan-Yang Li. 2018. "Design of a low electrode offset and high CMRR instrumentation." IEEE.
+- Huhta, James C, and John G Webster. 1973. "60-Hz Interference in Electrocardiography." IEEE Transactions on biomedical engineering.
+- Kligfield, P., L.S. Gettes, J.J. Bailey, R. Childers, B.J. Deal, E.W. Hancock, G. van Herpen, and Kors. 2007. "Recommendations for the Standardization and Interpretation of the Electrocardiogram." Circulation.
+- Lee, Stephen, and John Kruse. 2008. "Biopotential Electrode Sensors in ECG/EEG/EMG Systems." Analog Devices.
+- Macfarlane, Peter W., Adrian Van Ooosterom, Olle Pahlm, Paul Kligfield, and Michiel Janse. 2011. Comprehensive Electrocardiology, Second Edition. Springer.
+- Madeiro, Joao Paulo do Vale, Paulo Cortez, José Maria Da Silva Monteiro Filho, and Angelo Roncalli Alencar Brayner. 2019. Developments and Applications for ECG Signal Processing. Academic Press.
+- Mancini, Ron, and Bruce Carter. 2009. Op Amps for Everyone. Newnes.
+- Mark, Roger. 2004. Quantitative Physiology: Organ Transport Systems, Lecture notes from HST/MIT Open Courseware .
+- Parker, Michael. 2017. Digital Signal Processing 101. Newnes.
+- Pearce, Joshua M. 2020. "A review of open source ventilators for COVID-19 and future pandemics [version 2; peer review: 3 approved]." F1000Research 3,4
+- Scherz, Paul, and Simon Monk. 2016. Practical Electronics for Inventors. McGraw-Hill Education.
+- Warner, John. 2015. The Handbook of Lithium-Ion Battery Pack Design. Elsevier Science.
+- Webster, John G. 2006. Encyclopedia of Medical Devices and Instrumentation. Vol I. Wiley-Interscience.
