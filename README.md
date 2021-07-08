@@ -109,3 +109,23 @@ In that spirit, I like to echo a section of *ST Segment Monitoring Practice Guid
 - The use of at least three chest leads (V3, V4, V5) is recommended for ST analysis
 
 The provided proof-of-concept of the CardioBit platform’s core architecture, is designed for acquisition of 2 bipolar limb leads and 2 unipolar chest leads. User (whether clinician, researcher or developer) can decide which respective two leads he or she wants to use. As noted, reconstruction of virtual 12-lead ECG from the chosen leads is attempted in software. It is left up to user to decide whether to use this feature or not. For more information, please regard the factors noted in  [Design Decision I](https://github.com/kevmasajedi/Cardiobit/blob/main/README.md#-design-decision-i-platform-must-be-able-to-reconstruct-12-virtual-leads-from-a-reduced-lead-set)
+***
+## Electrical Design
+### The Characteristics of Measured Biopotential
+As stated before, surface potentials representing ECG signal are very weak (a few millivolts maximum) and are riding on a comparatively enormous offset voltage (hundreds of millivolts). (Lee and Kruse 2008) To complicate matters further, these signals are often contaminated with biopotential activity of muscles and nerves beneath the electrodes, 50Hz/60Hz AC powerline interference, low frequency motion artifacts and all sorts of high frequency electromagnetic noise (Madeiro, et al. 2019)
+
+Among these parasitic sources, the AC interference may be the most troublesome. Low frequency motion artifacts can be dealt with by good skin preparation and good electrode adhesion. Also, biopotential artifacts of nerve and muscle activity will be negligible if patient remain still and relaxed at a comfortable position. Lastly, high frequency noise, can be easily suppressed by a simple analog RC filter and later by digital filtering. Conversely, AC interference is present virtually anywhere and its frequency falls in the normal frequency range of ECG signal (0.05Hz – 250Hz)
+
+Unfortunately, AC interference is unavoidably present in any clinical situation. This interference can be of two independent types: magnetic and electric: A changing magnetic field produced by AC powerlines can induce in any nearby conductive loop, an electromotive force, which results in an ac potential. A changing electric field can also produce interference by causing ac currents to flow to ground through the system. (Huhta and Webster 1973)
+
+The magnetic interference is directly proportional to the area of the loop formed between two electrode leads and reducing this area is the best way to reduce this type of interference. Expensive shielding of the wires does not prevent this kind of interference. (As shown in Figure 8.) (Huhta and Webster 1973)
+
+The electrical interference is modeled as the capacitive coupling of AC powerlines to lead wirings, which results in displacement current induced in the respective leads, because the length of the leads is almost the same and the wires run closely together, this displacement current should be approximately equal in each lead. (Huhta and Webster 1973)
+
+Assuming that electrodes have perfectly the same electrical impedance, such displacement current should be rejected. Because, the front-end differential amplifier, only amplifies the difference between the voltages of the two inputs. In other words, as impedance of both electrodes is the same, the displacement current, results in induction of exactly the same voltage in them. This can be easily stated using generalized ohm’s law (Equation 3.13).
+
+Where 𝑉_𝐴𝐶 is the AC interference potential, 𝐼_𝐷 is the displacement current and Z is the impedance in respective inputs A and B. It is observed that 𝑉_𝐴𝐶 is induced by unbalance of the two impedances (the term 𝑍_𝐴 − 𝑍_𝐵 being non-zero). (Huhta and Webster 1973)
+
+That being said, it should not come as a surprise, that no two electrodes are perfectly the same in real world. Electrode impedance at 60Hz may range from less than 1 KΩ up to 100 KΩ. Given typical values of 6 nA of 𝐼𝐷 in a 3-m length of unshielded wire, and typical impedance imbalance of 5KΩ, induced potential (𝑉𝐴𝐶) would be about 30µV which is roughly 3 percent of the ECG potential. (Huhta and Webster 1973)
+
+Author should note here that in the experimentation with lower quality, cheaper disposable electrodes, far higher impedance imbalance has been observed and induced potential frequency observed to be as much as 10% of the QRS potential. Such observations influenced the Design Decision IV which will be discussed in due course.
