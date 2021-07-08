@@ -113,7 +113,7 @@ The provided proof-of-concept of the CardioBit platform’s core architecture, i
 ## Electrical Design
 ### The Characteristics of Measured Biopotential
 
-<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig16.png?raw=true" width="400px" title="Figure 7. Components of measured biopotential">
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig16.png?raw=true" width="400px" title="Figure 7. Components of measured biopotential. (Credit: Madeiro, et al. 2019)">
 
 As stated before, surface potentials representing ECG signal are very weak (a few millivolts maximum) and are riding on a comparatively enormous offset voltage (hundreds of millivolts). (Lee and Kruse 2008) To complicate matters further, these signals are often contaminated with biopotential activity of muscles and nerves beneath the electrodes, 50Hz/60Hz AC powerline interference, low frequency motion artifacts and all sorts of high frequency electromagnetic noise (Madeiro, et al. 2019)
 
@@ -123,12 +123,18 @@ Unfortunately, AC interference is unavoidably present in any clinical situation.
 
 The magnetic interference is directly proportional to the area of the loop formed between two electrode leads and reducing this area is the best way to reduce this type of interference. Expensive shielding of the wires does not prevent this kind of interference. (As shown in Figure 8.) (Huhta and Webster 1973)
 
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig17.png?raw=true" width="400px" title="Figure 8. AC noise pickup by magnetic interference. (Credit: Huhta and Webster 1973)">
+
 The electrical interference is modeled as the capacitive coupling of AC powerlines to lead wirings, which results in displacement current induced in the respective leads, because the length of the leads is almost the same and the wires run closely together, this displacement current should be approximately equal in each lead. (Huhta and Webster 1973)
 
 Assuming that electrodes have perfectly the same electrical impedance, such displacement current should be rejected. Because, the front-end differential amplifier, only amplifies the difference between the voltages of the two inputs. In other words, as impedance of both electrodes is the same, the displacement current, results in induction of exactly the same voltage in them. This can be easily stated using generalized ohm’s law (Equation 3.13).
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig18.png?raw=true" width="400px" >
 
 Where 𝑉_𝐴𝐶 is the AC interference potential, 𝐼_𝐷 is the displacement current and Z is the impedance in respective inputs A and B. It is observed that 𝑉_𝐴𝐶 is induced by unbalance of the two impedances (the term 𝑍_𝐴 − 𝑍_𝐵 being non-zero). (Huhta and Webster 1973)
 
 That being said, it should not come as a surprise, that no two electrodes are perfectly the same in real world. Electrode impedance at 60Hz may range from less than 1 KΩ up to 100 KΩ. Given typical values of 6 nA of 𝐼𝐷 in a 3-m length of unshielded wire, and typical impedance imbalance of 5KΩ, induced potential (𝑉𝐴𝐶) would be about 30µV which is roughly 3 percent of the ECG potential. (Huhta and Webster 1973)
 
-Author should note here that in the experimentation with lower quality, cheaper disposable electrodes, far higher impedance imbalance has been observed and induced potential frequency observed to be as much as 10% of the QRS potential. Such observations influenced the Design Decision IV which will be discussed in due course.
+Author should note here that in the experimentation with lower quality, cheaper disposable electrodes, far higher impedance imbalance has been observed and induced potential frequency observed to be as much as 10% of the QRS potential. Such observations influenced the **Design Decision IV** which will be discussed in due course.
+
+
