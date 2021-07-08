@@ -112,6 +112,9 @@ The provided proof-of-concept of the CardioBit platform’s core architecture, i
 ***
 ## Electrical Design
 ### The Characteristics of Measured Biopotential
+
+<img src="https://raw.githubusercontent.com/kevmasajedi/Cardiobit/main/readme_images/fig16.png?raw=true" width="400px" title="Figure 7. Components of measured biopotential">
+
 As stated before, surface potentials representing ECG signal are very weak (a few millivolts maximum) and are riding on a comparatively enormous offset voltage (hundreds of millivolts). (Lee and Kruse 2008) To complicate matters further, these signals are often contaminated with biopotential activity of muscles and nerves beneath the electrodes, 50Hz/60Hz AC powerline interference, low frequency motion artifacts and all sorts of high frequency electromagnetic noise (Madeiro, et al. 2019)
 
 Among these parasitic sources, the AC interference may be the most troublesome. Low frequency motion artifacts can be dealt with by good skin preparation and good electrode adhesion. Also, biopotential artifacts of nerve and muscle activity will be negligible if patient remain still and relaxed at a comfortable position. Lastly, high frequency noise, can be easily suppressed by a simple analog RC filter and later by digital filtering. Conversely, AC interference is present virtually anywhere and its frequency falls in the normal frequency range of ECG signal (0.05Hz – 250Hz)
